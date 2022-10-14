@@ -12,6 +12,7 @@ use App\Models\{
     Event,
     Workshop
 };
+use Carbon\Carbon;
 
 class EventsController extends BaseController
 {
@@ -107,7 +108,6 @@ class EventsController extends BaseController
     public function getEventsWithWorkshops() {
         try {
             $allEvent = self::getWarmupEvents();
-
             foreach($allEven as $event){
                 $getWorkShop =  Workshop::find($event->id);
 
@@ -127,6 +127,8 @@ class EventsController extends BaseController
                     ]
                 ];
             }
+
+            return $data; //var_dump($data);
         } catch (\Throwable $th) {
             throw new \Exception(' task 1 is not done');
         }
@@ -208,6 +210,31 @@ class EventsController extends BaseController
      */
 
     public function getFutureEventsWithWorkshops() {
-        throw new \Exception('implement in coding task 2');
+        try {
+            $allEvent = self::getWarmupEvents();
+            foreach($allEven as $event){
+                $getWorkShop =  Workshop::where(['event_id', $event->id, 'start <' => $event->created_at]);
+
+                $data[] = (object)[
+                    "id" => $event->id,
+                    "name" => $event->name,
+                    "created_at" => $event->created_at,
+                    "updated_at" => $event->updated_at,
+                    "workshops" => [
+                        "id" => $getWorkShop->id,
+                        "start" => $getWorkShop->start,
+                        "end" => $getWorkShop->end,
+                        "event_id" => $event->id,
+                        "name" => $getWorkShop->name,
+                        "created_at" =>  $getWorkShop->created_at,
+                        "updated_at" =>  $getWorkShop->updated_at
+                    ]
+                ];
+            }
+
+            return $data; //var_dump($data);
+        } catch (\Throwable $th) {
+            throw new \Exception(' task 2 is not done');
+        }
     }
 }
