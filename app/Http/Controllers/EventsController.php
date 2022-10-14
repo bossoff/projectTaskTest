@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Date;
+
+use App\Models\{
+    Event,
+    Workshop
+};
 
 class EventsController extends BaseController
 {
@@ -101,7 +105,32 @@ class EventsController extends BaseController
      */
 
     public function getEventsWithWorkshops() {
-        throw new \Exception('implement in coding task 1');
+        try {
+            $allEvent = self::getWarmupEvents();
+
+            foreach($allEven as $event){
+                $getWorkShop =  Workshop::find($event->id);
+
+                $data[] = (object)[
+                    "id" => $event->id,
+                    "name" => $event->name,
+                    "created_at" => $event->created_at,
+                    "updated_at" => $event->updated_at,
+                    "workshops" => [
+                        "id" => $getWorkShop->id,
+                        "start" => $getWorkShop->start,
+                        "end" => $getWorkShop->end,
+                        "event_id" => $event->id,
+                        "name" => $getWorkShop->name,
+                        "created_at" =>  $getWorkShop->created_at,
+                        "updated_at" =>  $getWorkShop->updated_at
+                    ]
+                ];
+            }
+        } catch (\Throwable $th) {
+            throw new \Exception(' task 1 is not done');
+        }
+        
     }
 
 
@@ -156,7 +185,7 @@ class EventsController extends BaseController
             "workshops": [
                 {
                     "id": 4,
-                    "start": "2021-08-21 10:00:00",
+                    "start": $getWorkShop->start,
                     "end": "2021-08-21 18:00:00",
                     "event_id": 3,
                     "name": "#NoClass pure functional programming",
