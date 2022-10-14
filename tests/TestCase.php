@@ -1,10 +1,15 @@
 <?php
 
-namespace Tests;
+// namespace Tests;
 
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+namespace Tests\Feature;
+// use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use PHPUnit\Framework\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-abstract class TestCase extends BaseTestCase
-{
-    use CreatesApplication;
+class AnotherTest extends TestCase {
+    public function testExample() {
+        use CreatesApplication;
+    }
 }
