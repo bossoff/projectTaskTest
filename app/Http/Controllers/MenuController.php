@@ -93,6 +93,22 @@ class MenuController extends BaseController
      */
 
     public function getMenuItems() {
-        throw new \Exception('implement in coding task 3');
+        try {
+            $getMenuItem =  MenuItem::all();
+            foreach($getMenuItem  as $item){
+                $data[] = (object)[
+                    "id" => $item->id,
+                    "name" => $item->name,
+                    "url" => $item->url,
+                    "created_at" => $item->created_at,
+                    "updated_at" => $item->updated_at,
+                    
+                ];
+            }
+
+            return $data; //var_dump($data);
+        } catch (\Throwable $th) {
+            throw new \Exception(' task 2 is not done');
+        }
     }
 }
