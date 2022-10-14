@@ -109,7 +109,7 @@ class EventsController extends BaseController
         try {
             $allEvent = self::getWarmupEvents();
             foreach($allEven as $event){
-                $getWorkShop =  Workshop::find($event->id);
+                $getWorkShop =  Workshop::where('event_id',$event->id);
 
                 $data[] = (object)[
                     "id" => $event->id,
